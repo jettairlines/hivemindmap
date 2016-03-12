@@ -12,8 +12,8 @@ function initMap() {
 
 	data.forEach(function(e){
 	  
-	  var marker = new MarkerWithLabel({
-   /*     position: new google.maps.LatLng(0,0),
+/*	  var marker = new MarkerWithLabel({
+        position: new google.maps.LatLng(0,0),
         draggable: false,
         raiseOnDrag: false,
         map: map,
@@ -22,8 +22,8 @@ function initMap() {
         labelClass: "labels", // the CSS class for the label
         labelStyle: {opacity: 1.0},
         icon: "http://placehold.it/1x1",
-        visible: false*/
-     });
+        visible: false
+     });*/
 	  
 	  var temp = new google.maps.Polygon({
 	   paths: e.points,
