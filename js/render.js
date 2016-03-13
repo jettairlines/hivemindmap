@@ -46,7 +46,7 @@ function initialize() {
   
 }
 
-// code stolen from http://jsfiddle.net/tcfwH/304/
+// stolen from http://jsfiddle.net/tcfwH/304/
 function makePolygon(polyCoords, polyLabel) {
     var marker = new MarkerWithLabel({
         position: new google.maps.LatLng(0,0),
