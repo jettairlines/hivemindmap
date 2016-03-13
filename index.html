@@ -10,27 +10,19 @@
         margin: 0;
         padding: 0;
       }
-      #map {
+      #map_canvas {
         height: 100%;
       }
     </style>
   </head>
   <body>
-    <div id="map"></div>
       
-    <script>
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 40.1077387, lng: -88.2286079},
-          zoom: 15
-        });
-      }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdvZ4YdBJATU1ajuAUCCZC8tVJnB6FrHE&callback=initMap"
-    async defer></script>
-	<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerwithlabel/1.1.5/src/markerwithlabel_packed.js"></script><div id="map_canvas">
-	<script src="/js/data.js" async defer></script>
-    <script src="/js/render.js" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdvZ4YdBJATU1ajuAUCCZC8tVJnB6FrHE" ></script>
+	<script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerwithlabel/1.1.5/src/markerwithlabel_packed.js"></script>
+	
+	<div id="map_canvas"></div>
+	
+	<script src="/js/data.js"></script>
+    <script src="/js/render.js"></script>
   </body>
 </html>
