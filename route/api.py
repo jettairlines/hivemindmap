@@ -4,8 +4,13 @@ from model.rectangle import Rectangle
 
 rectangles = init()
 
-@app.route('/api/<float:x1>/<float:y1>/<float:x2>/<float:y2>/<label>')
+@app.route('/api/<x1>/<y1>/<x2>/<y2>/<label>')
 def add_rectagle(x1, y1, x2, y2, label):
+    x1 = float(x1)
+    y1 = float(y1)
+    x2 = float(x2)
+    y2 = float(y2)
+
     rect = Rectangle(
         (x1, y1),
         (x2, y2),

@@ -1,21 +1,26 @@
 var map;
 var chicago = {lat: 41.85, lng: -87.65};
 var infoWindow;
+var HOST = 'http://localhost:5000/api/'
+
+function redrawAllRectangles() {
+    $.get(HOST + 'all', function(data) {
+        console.log(data);
+    });
+}
 
 function initialize() {
   var myLatLng = new google.maps.LatLng(40.77, -73.97);
   var myOptions = {
-		center: {lat: 40.1077387, lng: -88.2286079},
-		zoom: 15
+        center: {lat: 40.1077387, lng: -88.2286079},
+        zoom: 15
   };
-
 
   //render data
   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
   data.forEach(function(e){
-	makePolygon(e.cords,e.label);
+    makePolygon(e.cords,e.label);
   });
-    
 
   var drawingManager = new google.maps.drawing.DrawingManager({
     drawingControl: true,
@@ -23,29 +28,28 @@ function initialize() {
       position: google.maps.ControlPosition.TOP_CENTER,
       drawingModes: [
         google.maps.drawing.OverlayType.RECTANGLE
-	  ]
+      ]
     },
-	rectangleOptions: {
+    rectangleOptions: {
       fillColor: '#FF0000',
       fillOpacity: 0.25,
       strokeWeight: 0
     }
   });
-    
+
   google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (polygon) {
-	var label = window.prompt("What's your impression on this area?","nerds");
-	var coordinates = (polygon.getBounds());
-	console.log(coordinates.toUrlValue(8)+","+label);
-	
-	//make into our rec
-	polygon.setVisible(false);
-	makePolygon([coordinates.getSouthWest(),coordinates.getNorthEast()],label);
+    var label = window.prompt("What's your impression on this area?","nerds");
+    var coordinates = polygon.getBounds();
+    var url = coordinates.toUrlValue(8).split(",").join("/") + "/" + label;
+    $.get(HOST + url, redrawAllRectangles);
+
+    //make into our rec
+    polygon.setVisible(false);
+    makePolygon([coordinates.getSouthWest(),coordinates.getNorthEast()],label);
   });
- 
+
   drawingManager.setMap(map);
 }
-
-
 
 // stolen from http://jsfiddle.net/tcfwH/304/
 function makePolygon(cords,label) {
@@ -78,12 +82,5 @@ function makePolygon(cords,label) {
         marker.setVisible(false);
     });
 }
-
-
-function addData(){
-    
-}
-
-
 
 google.maps.event.addDomListener(window, 'load', initialize);
