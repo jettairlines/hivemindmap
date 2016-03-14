@@ -10,10 +10,10 @@ function initialize() {
   };
 
 
+  //render data
   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
   data.forEach(function(e){
-	makePolygon(e.cords, e.label);
+	makePolygon(e);
   });
     
 
@@ -50,13 +50,13 @@ function initialize() {
 
 
 // stolen from http://jsfiddle.net/tcfwH/304/
-function makePolygon(polyCoords, polyLabel) {
+function makePolygon(poly) {
     var marker = new MarkerWithLabel({
         position: new google.maps.LatLng(0,0),
         draggable: false,
         raiseOnDrag: false,
         map: map,
-        labelContent: polyLabel,
+        labelContent: poly.label,
         labelAnchor: new google.maps.Point(30, 20),
         labelClass: "labels", // the CSS class for the label
         labelStyle: {opacity: 1.0},
@@ -64,11 +64,11 @@ function makePolygon(polyCoords, polyLabel) {
         visible: false
      });
 
-    var poly = new google.maps.Polygon({
-        paths: polyCoords,
+    var poly = new google.maps.Rectangle({
+        bounds: new google.maps.LatLngBounds(poly.cords[0],poly.cords[1]),
         strokeWeight: 0,
         fillColor: "#FF0000",
-        fillOpacity: 0.25,
+        fillOpacity: 0.05,
         map: map
     });
 
