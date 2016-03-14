@@ -21,20 +21,8 @@ function initialize() {
     drawingControlOptions: {
       position: google.maps.ControlPosition.TOP_CENTER,
       drawingModes: [
-        google.maps.drawing.OverlayType.CIRCLE,
-        google.maps.drawing.OverlayType.POLYGON,
         google.maps.drawing.OverlayType.RECTANGLE
       ]
-    },
-    circleOptions: {
-      fillColor: '#FF0000',
-      fillOpacity: 0.05,
-      strokeWeight: 0
-    },
-	polygonOptions: {
-      fillColor: '#FF0000',
-      fillOpacity: 0.05,
-      strokeWeight: 0
     },
 	rectangleOptions: {
       fillColor: '#FF0000',
