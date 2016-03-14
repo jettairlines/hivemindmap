@@ -1,6 +1,6 @@
 var map;
-var infoWindow;
 var chicago = {lat: 41.85, lng: -87.65};
+var infoWindow;
 
 function initialize() {
   var myLatLng = new google.maps.LatLng(40.77, -73.97);
@@ -8,6 +8,7 @@ function initialize() {
 		center: {lat: 40.1077387, lng: -88.2286079},
 		zoom: 15
   };
+
 
   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
@@ -20,19 +21,29 @@ function initialize() {
     drawingControl: true,
     drawingControlOptions: {
       position: google.maps.ControlPosition.TOP_CENTER,
-      drawingModes: [
+      drawingModes: 
         google.maps.drawing.OverlayType.RECTANGLE
-      ]
     },
 	rectangleOptions: {
       fillColor: '#FF0000',
-      fillOpacity: 0.05,
+      fillOpacity: 0.25,
       strokeWeight: 0
     }
   });
+    
+  google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
+            var coordinates = (polygon.getPath().getArray());
+            for (var i = 0; i < coordinates.length; i++) {
+                lat = coordinates[i].lat();
+                lng = coordinates[i].lng();
+                console.log(lat, lng);
+            }
+  });
+ 
   drawingManager.setMap(map);
-  
 }
+
+
 
 // stolen from http://jsfiddle.net/tcfwH/304/
 function makePolygon(polyCoords, polyLabel) {
@@ -53,7 +64,7 @@ function makePolygon(polyCoords, polyLabel) {
         paths: polyCoords,
         strokeWeight: 0,
         fillColor: "#FF0000",
-        fillOpacity: 0.05,
+        fillOpacity: 0.25,
         map: map
     });
 
@@ -68,7 +79,9 @@ function makePolygon(polyCoords, polyLabel) {
 
 
 function addData(){
-  
+    
 }
+
+
 
 google.maps.event.addDomListener(window, 'load', initialize);
