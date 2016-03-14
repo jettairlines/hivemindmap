@@ -32,13 +32,16 @@ function initialize() {
     }
   });
     
-  google.maps.event.addListener(drawingManager, 'polygoncomplete', function (polygon) {
-            var coordinates = (polygon.getPath().getArray());
-            for (var i = 0; i < coordinates.length; i++) {
-                lat = coordinates[i].lat();
-                lng = coordinates[i].lng();
-                console.log(lat, lng);
-            }
+  google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (polygon) {
+	var label = window.prompt("What's your impression on this area?","nerds");
+	var coordinates = (polygon.getBounds());
+	console.log(coordinates.toUrlValue(8));
+/*	var coordinates = (polygon.getPath().getArray());
+	for (var i = 0; i < coordinates.length; i++) {
+		lat = coordinates[i].lat();
+		lng = coordinates[i].lng();
+		console.log(lat, lng);
+	}*/
   });
  
   drawingManager.setMap(map);
