@@ -21,8 +21,9 @@ function initialize() {
     drawingControl: true,
     drawingControlOptions: {
       position: google.maps.ControlPosition.TOP_CENTER,
-      drawingModes: 
+      drawingModes: [
         google.maps.drawing.OverlayType.RECTANGLE
+	  ]
     },
 	rectangleOptions: {
       fillColor: '#FF0000',
