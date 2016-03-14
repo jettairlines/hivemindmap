@@ -13,7 +13,7 @@ function initialize() {
   //render data
   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
   data.forEach(function(e){
-	makePolygon(e);
+	makePolygon(e.cords,e.label);
   });
     
 
@@ -35,13 +35,11 @@ function initialize() {
   google.maps.event.addListener(drawingManager, 'rectanglecomplete', function (polygon) {
 	var label = window.prompt("What's your impression on this area?","nerds");
 	var coordinates = (polygon.getBounds());
-	console.log(coordinates.toUrlValue(8));
-/*	var coordinates = (polygon.getPath().getArray());
-	for (var i = 0; i < coordinates.length; i++) {
-		lat = coordinates[i].lat();
-		lng = coordinates[i].lng();
-		console.log(lat, lng);
-	}*/
+	console.log(coordinates.toUrlValue(8)+","+label);
+	
+	//make into our rec
+	polygon.setVisible(false);
+	makePolygon([coordinates.getSouthWest(),coordinates.getNorthEast()],label);
   });
  
   drawingManager.setMap(map);
@@ -50,13 +48,13 @@ function initialize() {
 
 
 // stolen from http://jsfiddle.net/tcfwH/304/
-function makePolygon(poly) {
+function makePolygon(cords,label) {
     var marker = new MarkerWithLabel({
         position: new google.maps.LatLng(0,0),
         draggable: false,
         raiseOnDrag: false,
         map: map,
-        labelContent: poly.label,
+        labelContent: label,
         labelAnchor: new google.maps.Point(30, 20),
         labelClass: "labels", // the CSS class for the label
         labelStyle: {opacity: 1.0},
@@ -65,7 +63,7 @@ function makePolygon(poly) {
      });
 
     var poly = new google.maps.Rectangle({
-        bounds: new google.maps.LatLngBounds(poly.cords[0],poly.cords[1]),
+        bounds: new google.maps.LatLngBounds(cords[0],cords[1]),
         strokeWeight: 0,
         fillColor: "#FF0000",
         fillOpacity: 0.05,
