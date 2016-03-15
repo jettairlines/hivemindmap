@@ -30,5 +30,5 @@ class Rectangle(_rectangle):
             'point1': self.point1,
             'point2': self.point2,
             'center': self._center,
-            'labels': self.labels
+            'labels': dict(self.labels)
         }

@@ -5,7 +5,7 @@ var HOST = 'http://localhost:5000/api/'
 
 function redrawAllRectangles() {
     $.get(HOST + 'all', function(data) {
-        console.log(data);
+        console.log(data.rectangles);
     });
 }
 
