@@ -1,26 +1,29 @@
 var map;
-var chicago = {lat: 41.85, lng: -87.65};
 var infoWindow;
 var HOST = 'http://localhost:5000/api/'
+var drawnRectangles = [];
 
 function redrawAllRectangles() {
-    $.get(HOST + 'all', function(data) {
-        console.log(data.rectangles);
-    });
+  $.get(HOST + 'all', function(data) {
+      drawnRectangles.forEach(function(r) {
+          r.setMap(null);
+      });
+      data.rectangles.forEach(function(r) {
+          var label = Object.keys(r.labels).reduce(function(a, b) { return r.labels[a] > r.labels[b] ? a : b });
+          label += ' - ' + r.labels[label] + ' vote(s)';
+          drawnRectangles.push(makePolygon(r.point1, r.point2, label));
+      });
+  });
 }
 
 function initialize() {
-  var myLatLng = new google.maps.LatLng(40.77, -73.97);
   var myOptions = {
-        center: {lat: 40.1077387, lng: -88.2286079},
-        zoom: 15
+    center: {lat: 40.1077387, lng: -88.2286079},
+    zoom: 15
   };
 
   //render data
   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-  data.forEach(function(e){
-    makePolygon(e.cords,e.label);
-  });
 
   var drawingManager = new google.maps.drawing.DrawingManager({
     drawingControl: true,
@@ -45,14 +48,13 @@ function initialize() {
 
     //make into our rec
     polygon.setVisible(false);
-    makePolygon([coordinates.getSouthWest(),coordinates.getNorthEast()],label);
   });
 
   drawingManager.setMap(map);
 }
 
 // stolen from http://jsfiddle.net/tcfwH/304/
-function makePolygon(cords,label) {
+function makePolygon(p1, p2, label) {
     var marker = new MarkerWithLabel({
         position: new google.maps.LatLng(0,0),
         draggable: false,
@@ -67,11 +69,18 @@ function makePolygon(cords,label) {
      });
 
     var poly = new google.maps.Rectangle({
-        bounds: new google.maps.LatLngBounds(cords[0],cords[1]),
-        strokeWeight: 0,
-        fillColor: "#FF0000",
-        fillOpacity: 0.05,
-        map: map
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: map,
+        bounds: {
+            north: p1[0],
+            south: p2[0],
+            east: p2[1],
+            west: p1[1]
+        }
     });
 
     google.maps.event.addListener(poly, "mousemove", function(event) {
@@ -81,6 +90,7 @@ function makePolygon(cords,label) {
     google.maps.event.addListener(poly, "mouseout", function(event) {
         marker.setVisible(false);
     });
+    return poly;
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
